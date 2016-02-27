@@ -1,7 +1,7 @@
 require_relative '../models/address_book'
 
 class MenuController
-  attr_reader :address_book
+   attr_reader :address_book
 
   def initialize
     @address_book = AddressBook.new
@@ -14,7 +14,8 @@ class MenuController
     puts "2 - Create an entry"
     puts "3 - Search for an entry"
     puts "4 - Import entries from a CSV"
-    puts "5 - Exit"
+    puts "5 - View Entry Number n"
+    puts "6 - Exit"
     print "Enter your selection: "
 
     selection = gets.to_i
@@ -37,8 +38,11 @@ class MenuController
       read_csv
       main_menu
     when 5
+      system "clear"
+      view_by_entry_number
+      main_menu
+    when 6
       puts "Good-bye!"
-
       exit(0)
 
     else
@@ -47,6 +51,22 @@ class MenuController
       main_menu
   end
 end
+
+def view_by_entry_number
+  print "Entry Number: "
+  selection = gets.chomp.to_i
+
+  if selection < @address_book.entries.size
+    puts @address_book.entries[selection]
+    puts "Press enter to return to the main menu"
+    gets.chomp
+    system "clear"
+  else
+    puts "Sorry, #{selection} is not a valid input"
+    view_by_entry_number
+  end
+end
+
 
   def view_all_entries
     address_book.entries.each do |entry|
